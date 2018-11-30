@@ -1,0 +1,28 @@
+{
+    "description": "MongoDB pre-installed",
+    "builders": [{
+        "type": "amazon-ebs",
+        "ami_name": "mongodb-dev-{{ timestamp }}",
+        "ami_description": "AMI with MongoDB pre-installed",
+        "instance_type": "{{ user `instance_type` }}",
+        "region": "{{ user `region` }}",
+        "source_ami": "{{ user `source_ami` }}",
+        "ssh_username": "{{ user `ssh_username` }}",
+        "subnet_id": "{{ user `subnet_id` }}",
+        "vpc_id": "{{ user `vpc_id` }}",
+        "tags": {
+          "Name": "{{ user `name` }}",
+          "Purpose": "{{ user `purpose` }}",
+          "Project": "{{ user `project` }}",
+          "Creator": "{{ user `creator` }}",
+          "Environment": "{{ user `environment` }}",
+          "Freetext": "{{ user `notes` }}"
+        }
+    }],
+    "provisioners": [
+        {
+          "type": "ansible",
+          "playbook_file": "./ansible/tasks/main.yml"
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+---
+- hosts: all
+  vars_files:
+    - ../vars/main.yml
+  tasks:
+  - name: 'Add mongodb repo 4.0 and up'
+    become: true
+    yum_repository:
+      name: "{{ mongodb_redhat_repo_info['name'] }}"
+      description: "{{ mongodb_redhat_repo_info['description'] }}"
+      baseurl: "{{ mongodb_redhat_repo_info['baseurl'] }}"
+      gpgcheck: "{{ mongodb_redhat_repo_info['gpgcheck'] }}"
+      enabled: "{{ mongodb_redhat_repo_info['enabled'] }}"
+      gpgkey: "{{ mongodb_redhat_repo_info['gpgkey'] }}"
+      file: mongodb-org-4.0.3
+  
+  - name: 'Install mongodb-org'
+    become: true
+    package:
+      name: mongodb-org
+      state: latest
+      update_cache: yes
+  
+  - name: 'Start MongoDB'
+    become: true
+    service:
+      name: mongod
+      state: started
+
+  - name: config | Configuring MongoDB
+    template:
+      src: etc/mongod.conf.j2
+      dest: "{{ mongodb_config }}"
+    become: true
+    register: mongodb_configured
+    notify:
+    - restart mongod

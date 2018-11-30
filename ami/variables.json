@@ -1,0 +1,14 @@
+{
+    "name": "MongoDB",
+    "purpose": "Simple MongoDB backed EC2",
+    "project": "",
+    "creator": "",
+    "environment": "",
+    "region": "",
+    "source_ami": "",
+    "ssh_username": "",
+    "notes": "",
+    "instance_type": "",
+    "vpc_id": "",
+    "subnet_id":""
+}
